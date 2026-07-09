@@ -27,6 +27,7 @@ export const test = Base.extend<MyPageFixture>({
 
     loginPage: async ({page},use)=>{
         const lp=new LoginPage(page) 
+        lp.doLogin('mngr663722', 'aruqYbA');
         await use(lp)  
     },
 
