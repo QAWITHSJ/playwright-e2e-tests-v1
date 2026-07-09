@@ -1,7 +1,9 @@
 name: Playwright Tests
 on:
+  schedule:
+    - cron: '30 12 * * *' # This triggers exactly at 18:00 (6 PM) IST
   push:
-    branches: [ main, master ]
+    branches: [ main, master]
   pull_request:
     branches: [ main, master ]
 
