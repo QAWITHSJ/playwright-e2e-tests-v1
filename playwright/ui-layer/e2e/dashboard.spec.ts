@@ -12,11 +12,11 @@ test.describe('Dashboard Tests', () => {
         await dashboardPage.pageTitle();
     })
 
-    test('@dashboard Verify Welcome Message', async ({ dashboardPage }) => {      
+    test('@dashboard @regression Verify Welcome Message', async ({ dashboardPage }) => {      
         await dashboardPage.getWelcomeMessageText();
     })
 
-    test('@dashboard Verify Menu Items Count', async ({ dashboardPage }) => {
+    test('@dashboard @regression Verify Menu Items Count', async ({ dashboardPage }) => {
         await dashboardPage.menuItemsCountShouldBeFiften(15);
     });
 
