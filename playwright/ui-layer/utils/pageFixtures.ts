@@ -3,6 +3,7 @@ import { LoginPage } from '../pages/loginpage'
 import { CustomerPage } from '../pages/customerPage'
 import { DeleteCustomerPage } from '../pages/deleteCustomerPage'
 import {DashboardPage} from '../pages/dashboardPage'
+import dotenv from 'dotenv'
 
 // type MyPageFixture={
 
@@ -27,7 +28,7 @@ export const test = Base.extend<MyPageFixture>({
 
     loginPage: async ({page},use)=>{
         const lp=new LoginPage(page) 
-        lp.doLogin('mngr663722', 'aruqYbA');
+        lp.doLogin(process.env.GURU99_USERNAME!, process.env.GURU99_PASSWORD!);
         await use(lp)  
     },
 
