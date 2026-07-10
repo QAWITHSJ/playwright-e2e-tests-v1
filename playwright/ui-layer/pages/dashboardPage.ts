@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { Default_MediumTimeOut } from "../utils/helpers";
 
 export class DashboardPage{
 
@@ -23,7 +24,8 @@ export class DashboardPage{
     }
 
     async menuItemsCountShouldBeFiften(expectedMenuItemscount:number){
-        await expect(this.menuItems).toHaveCount(expectedMenuItemscount);
+        await expect(this.menuItems.first()).toBeVisible({timeout:Default_MediumTimeOut})
+        await expect(this.menuItems).toHaveCount(expectedMenuItemscount, {timeout:Default_MediumTimeOut});
     }
       
 }
