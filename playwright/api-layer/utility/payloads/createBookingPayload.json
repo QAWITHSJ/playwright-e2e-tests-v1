@@ -1,0 +1,24 @@
+{
+    "createBookingpayload": {
+        "firstname": "Playwright",
+        "lastname": "E2E",
+        "totalprice": 111,
+        "depositpaid": true,
+        "bookingdates": {
+            "checkin": "2018-01-01",
+            "checkout": "2019-01-01"
+        },
+        "additionalneeds": "Breakfast"
+    },
+     "createBookingInvalidpayload": {
+        "firstname": "Playwright",
+        "lastname": "E2E",
+        "depositpaid": true,
+        "bookingdates": {
+            "checkin": "2018-01-01",
+            "checkout": "2019-01-01"
+        },
+        "additionalneeds": "Breakfast"
+    }
+
+}

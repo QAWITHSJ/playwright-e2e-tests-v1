@@ -1,0 +1,52 @@
+name: Playwright API Tests
+
+on:
+  push:
+    branches: [main, master]
+
+  pull_request:
+    branches: [main, master]
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: test
+        type: choice
+        options:
+          - test
+
+jobs:
+  api-test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    environment: test
+
+    env:
+      GURU99_API_BASEURL: ${{ vars.GURU99_API_BASEURL }}
+      GURU99_API_USERNAME: ${{ secrets.GURU99_API_USERNAME }}
+      GURU99_API_PASSWORD: ${{ secrets.GURU99_API_PASSWORD }}
+      GURU99_API_TOKENURL: ${{ secrets.GURU99_API_TOKENURL }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Playwright API tests
+        run: npx playwright test --project=api
+
+      - name: Upload Playwright Report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
