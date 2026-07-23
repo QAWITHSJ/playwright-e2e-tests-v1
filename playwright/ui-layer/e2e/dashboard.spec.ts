@@ -1,12 +1,9 @@
 import {test, expect} from '../utils/pageFixtures';
 
 test.describe('Dashboard Tests', () => {
-
-
-    test.beforeEach(async ({ loginPage }) => {
-        await loginPage
+    test.beforeEach(async ({page})=>{
+       await page.goto('https://demo.guru99.com/V4/manager/Managerhomepage.php')
     })
-
 
     test('@dashboard @regression Verify Dashboard Page Title', async ({ dashboardPage }) => {
         await dashboardPage.pageTitle();

@@ -42,6 +42,7 @@ export class CustomerPage{
     }
 
     async navigateToNewCustomerPage(){
+        await this.page.goto('https://demo.guru99.com/V4/manager/Managerhomepage.php')
         await this.menuItems.click();
     }   
 

@@ -40,7 +40,11 @@ jobs:
   playwright_Tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    environment: test
+    environment: ${{ inputs.environment }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     env: 
       GURU99_BASEURL: ${{vars.BASEURL}}
       GURU99_USERNAME: ${{secrets.USERNAME}}
@@ -54,11 +58,40 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test --project=ui --grep "${{ inputs.tag }}"
-    - uses: actions/upload-artifact@v4
+    - name: Run Playwright tests for shard ${{ matrix.shard }} of ${{ strategy.job-total }}
+      run: npx playwright test --project=ui --grep "${{ inputs.tag }}" --shard=${{ matrix.shard }}/${{ strategy.job-total }} --reporter=blob
+    - name: Upload shard blob report
       if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
       with:
-        name: playwright-report
+        name: playwright-blob-report-${{ matrix.shard }}
+        path: blob-report/
+        retention-days: 30
+
+  merge_reports:
+    name: Merge Playwright Reports
+    needs: playwright_Tests
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Download all shard blob reports
+      uses: actions/download-artifact@v4
+      with:
+        pattern: playwright-blob-report-*
+        path: blob-reports
+        merge-multiple: true
+    - name: Merge blob reports into final HTML report
+      run: npx playwright merge-reports --reporter=html blob-reports
+    - name: Upload final HTML report
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-final-report
         path: playwright-report/
         retention-days: 30
