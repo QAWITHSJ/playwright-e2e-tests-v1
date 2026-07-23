@@ -2,12 +2,10 @@ import {test, expect} from '../utils/pageFixtures';
 
 
 test.describe('Customer Tests', () => {
-    test.beforeEach(async({loginPage})=>{
-        await loginPage;
-    })
 
     test('@customer @customer_creation @regression Verify New Customer Form Submission', async ({ customerPage }) => {
         const date=new Date();
+
         await customerPage.navigateToNewCustomerPage();
         await customerPage.fillCustomerForm('John Doe', '1990-01-02', '123 Main St', 'New York', 'NY', '100011', '1234567890',`johndoe${Date.now()}@gmail.com`, "john@123");
         await customerPage.clicksubmitBtn()

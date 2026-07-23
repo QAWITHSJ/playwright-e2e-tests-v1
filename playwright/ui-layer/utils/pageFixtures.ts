@@ -14,7 +14,7 @@ dotenv.config()
 
 type MyPageFixture={
 
-    loginPage: LoginPage,
+    //loginPage: LoginPage,
     customerPage: CustomerPage,
     deleteCustomerPage: DeleteCustomerPage,
     dashboardPage: DashboardPage
@@ -27,11 +27,11 @@ export const test = Base.extend<MyPageFixture>({
     //     await use(50)
     // },
 
-    loginPage: async ({page},use)=>{
-        const lp=new LoginPage(page) 
-        lp.doLogin(process.env.GURU99_USERNAME!, process.env.GURU99_PASSWORD!);
-        await use(lp)  
-    },
+    // loginPage: async ({page},use)=>{
+    //     const lp=new LoginPage(page) 
+    //     await lp.doLogin(process.env.GURU99_USERNAME!, process.env.GURU99_PASSWORD!);
+    //     await use(lp)  
+    // },
 
     customerPage: async ({page},use)=>{
         const cp = new CustomerPage(page)
